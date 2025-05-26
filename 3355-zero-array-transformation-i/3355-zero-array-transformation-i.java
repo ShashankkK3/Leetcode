@@ -1,29 +1,23 @@
-import java.util.*;
-
-public class Solution {
-    public boolean isZeroArray(int[] nums, List<List<Integer>> queries) {
+class Solution {
+    public boolean isZeroArray(int[] nums, int[][] queries) {
         int n = nums.length;
-        int[] delta = new int[n + 1];
+        int[] diff = new int[n + 1];
 
-        // Apply range increments using difference array
-        for (List<Integer> q : queries) {
-            int l = q.get(0);
-            int r = q.get(1);
-            delta[l]++;
-            if (r + 1 < n) delta[r + 1]--;
+        for (int[] q : queries) {
+            diff[q[0]]++;
+            if (q[1] + 1 < diff.length) {
+                diff[q[1] + 1]--;
+            }
         }
 
-        // Build prefix sum array to get final increment count at each index
-        int[] newDelta = new int[n];
-        newDelta[0] = delta[0];
-        for (int i = 1; i < n; i++) {
-            newDelta[i] = newDelta[i - 1] + delta[i];
-        }
-
-        // Apply the reverse transformation
+        int sum = 0;
         for (int i = 0; i < n; i++) {
-            int reduced = nums[i] - newDelta[i];
-            if (reduced > 0) return false;
+            sum += diff[i];
+            if (nums[i] <= sum) {
+                nums[i] = 0;
+            } else {
+                return false;
+            }
         }
 
         return true;
