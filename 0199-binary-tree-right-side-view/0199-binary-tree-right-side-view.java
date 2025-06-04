@@ -15,25 +15,34 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
+        Queue<TreeNode> q=new LinkedList<>();
         ArrayList<Integer> al=new ArrayList<>();
-        int level=0;
-        rightview(al,root,level);
-       
-        return al;
-        
-    }
-    public void rightview(List<Integer> al,TreeNode root,int level){
+        q.offer(root);
+        q.offer(null);
         if(root==null){
-            return ;
+            return al;
         }
-        if (level == al.size()) {
-            al.add(root.val);
-        } else {
-            // Overwrite the previous value (left node) with right node
-            al.set(level, root.val);
-        }
-        rightview(al,root.left,level+1);
-        rightview(al,root.right,level+1);
+        while(!q.isEmpty()){
+            TreeNode node=q.poll();
+            if(node!=null && node.left!=null){
+                q.offer(node.left);
+            }
+            if(node!=null && node.right!=null){
+                q.offer(node.right);
+            }
+            if(node==null){
+                if(!q.isEmpty())
+                   q.offer(null);
+                else{
+                    break;
+                }
+            }
+            if(!q.isEmpty() && q.peek()==null && node!=null){
+                al.add(node.val);
+            }
+            
 
+        }
+        return al;
     }
 }
