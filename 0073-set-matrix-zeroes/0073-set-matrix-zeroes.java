@@ -1,25 +1,34 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
-        boolean zeroinFirstCol = false;
-        for (int row = 0; row < matrix.length; row++) {
-            if (matrix[row][0] == 0) zeroinFirstCol = true;
-            for (int col = 1; col < matrix[0].length; col++) {
-                if (matrix[row][col] == 0) {
-                    matrix[row][0] = 0;
-                    matrix[0][col] = 0;
+        ArrayList<ArrayList<Integer>> al=new ArrayList<>();
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                if(matrix[i][j]==0){
+                    al.add(new ArrayList<>(List.of(i,j)));
                 }
+            }
+        }
+        TreeSet<Integer> row=new TreeSet<>();
+        TreeSet<Integer> col=new TreeSet<>();
+
+        for(ArrayList<Integer> ele: al){
+            row.add(ele.get(0));
+            col.add(ele.get(1));
+        }
+        for(Integer r:row){
+            
+                for(int j=0;j<matrix[0].length;j++){
+                    matrix[r][j]=0;
+                }
+            
+        }
+        for(Integer c:col){
+            
+                for(int j=0;j<matrix.length;j++){
+                    matrix[j][c]=0;
+                
             }
         }
 
-        for (int row = matrix.length - 1; row >= 0; row--) {
-            for (int col = matrix[0].length - 1; col >= 1; col--) {
-                if (matrix[row][0] == 0 || matrix[0][col] == 0) {
-                    matrix[row][col] = 0;
-                }
-            }
-            if (zeroinFirstCol) {
-                matrix[row][0] = 0;
-            }
-        }
     }
 }
