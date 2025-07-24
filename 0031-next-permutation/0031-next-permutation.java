@@ -8,11 +8,8 @@ class Solution {
                 break;
             }
         }
-        if(ind==-1){
-            Arrays.sort(nums);
-            return;
-        }
-        for(int i=n-1;i>ind;i--){
+        if(ind!=-1){
+            for(int i=n-1;i>ind;i--){
             if(nums[i]>nums[ind]){
                 int temp=nums[i];
                 nums[i]=nums[ind];
@@ -20,18 +17,21 @@ class Solution {
                 break;
             }
         }
-        ArrayList<Integer> al =new ArrayList<>();
-        for(int i=ind+1;i<n;i++){
-            al.add(nums[i]);
-        }
-        Collections.reverse(al);
-        int j=0;
-        
-        for(int i=ind+1;i<n;i++){
-            nums[i]=al.get(j);
-            j++;
-        
 
+        }
+        reverse(nums,ind+1,n-1);
+        
+        
+    }
+    public void reverse(int[] arr,int i,int j){
+        int temp=0;
+        while(i<j){
+            temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+            j--;
+            
         }
     }
 }
