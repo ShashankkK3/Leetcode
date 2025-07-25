@@ -15,51 +15,56 @@
  */
 class Solution {
     public boolean isCousins(TreeNode root, int x, int y) {
-        int level=0;
-        int levelX=level(root,x,level);
-        int levelY=level(root,y,level);
-        if(levelX!=levelY){
-            return false;
+        TreeNode xPar=parent(root,x);
+        TreeNode yPar=parent(root,y);
+        int count=0;
+        if(xPar!=null){
+            System.out.println(xPar.val);
         }
-        TreeNode xParent=parent(root,x);
-        TreeNode yParent=parent(root,y);
-        if(xParent==yParent){
-            return false;
-        }
+        if(yPar!=null)
+        System.out.println(yPar.val);
 
-        return true;
+        int xHeight=height(root,x,count);
+        int yHeight=height(root,y,count);
+        System.out.println("Heights of Nodes");
+        System.out.println(xHeight);
+        System.out.println(yHeight);
+        
+        if((xHeight==yHeight) && (xPar!=yPar)){
+            return true;
+        }
+        return false;
     }
-    public int level(TreeNode root,int x,int level){
-        if(root==null){
-            return -1;
-        }
-        if(root.val==x){
-            return level;
-        }
-        int left=level(root.left,x,level+1);
-        if(left!=-1){
-            return left;
-        }
-        int right=level(root.right,x,level+1);
-
-        return right;
-
-
-    }
-    public TreeNode parent(TreeNode root,int x){
+    public TreeNode parent(TreeNode root,int value){
         if(root==null){
             return null;
         }
-        if((root.left!=null && root.left.val==x) || (root.right!=null && root.right.val==x)){
+        if( (root.left!=null && root.left.val==value) || (root.right!=null && root.right.val==value)){
             return root;
         }
-        TreeNode left=parent(root.left,x);
+        TreeNode left=parent(root.left,value);
+        
+        TreeNode right=parent(root.right,value);
         if(left!=null){
             return left;
         }
-        
-        
-        return parent(root.right,x);
+
+        return right;
+    }
+    public int height(TreeNode root,int x, int count){
+        if(root==null){
+            return 0;
+        }
+        if(root.val==x){
+            return count;
+        }
+        int left=height(root.left,x,count+1);
+        int right=height(root.right,x,count+1);
+
+        if(left!=0){
+            return left;
+        }
+        return right;
 
     }
 }
